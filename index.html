@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alquiler de Cuartos</title>
   <style>
-    /* Estilos Generales */
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f6f9;
@@ -16,9 +15,7 @@
       align-items: center;
     }
 
-    h1 {
-      color: #333;
-    }
+    h1 { color: #333; }
 
     /* Galería de Cuartos */
     .contenedor-cuartos {
@@ -38,9 +35,7 @@
       transition: transform 0.2s;
     }
 
-    .tarjeta-cuarto:hover {
-      transform: translateY(-5px);
-    }
+    .tarjeta-cuarto:hover { transform: translateY(-5px); }
 
     .tarjeta-cuarto img {
       width: 100%;
@@ -48,20 +43,9 @@
       object-fit: cover;
     }
 
-    .tarjeta-cuarto .info {
-      padding: 15px;
-    }
-
-    .tarjeta-cuarto h3 {
-      margin: 0 0 10px 0;
-      color: #2c3e50;
-    }
-
-    .tarjeta-cuarto p {
-      margin: 0;
-      color: #666;
-      font-size: 14px;
-    }
+    .tarjeta-cuarto .info { padding: 15px; }
+    .tarjeta-cuarto h3 { margin: 0 0 10px 0; color: #2c3e50; }
+    .tarjeta-cuarto p { margin: 0; color: #666; font-size: 14px; }
 
     /* Ventana Emergente (Modal) */
     .overlay {
@@ -84,12 +68,14 @@
       width: 90%;
       max-width: 450px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .encabezado-modal {
       display: flex;
       align-items: center;
-      gap: 15px;
+      justify-content: space-between;
       border-bottom: 1px solid #ddd;
       padding-bottom: 10px;
       margin-bottom: 15px;
@@ -102,13 +88,8 @@
       object-fit: cover;
     }
 
-    .encabezado-modal h2 {
-      margin: 0;
-      font-size: 20px;
-      color: #2c3e50;
-    }
+    .encabezado-modal h2 { margin: 0; font-size: 20px; color: #2c3e50; }
 
-    /* Formularios y Campos */
     .campo {
       margin-bottom: 15px;
       display: flex;
@@ -129,7 +110,6 @@
       font-size: 15px;
     }
 
-    /* Botones */
     .acciones {
       display: flex;
       justify-content: space-between;
@@ -147,26 +127,43 @@
       cursor: pointer;
     }
 
-    .btn-regresar {
-      background-color: #e74c3c;
-      color: white;
+    .btn-regresar { background-color: #e74c3c; color: white; }
+    .btn-confirmar { background-color: #2ecc71; color: white; }
+
+    /* Lista de Pagos Registrados dentro del Modal */
+    .historial-titulo {
+      margin-top: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+      border-top: 1px solid #eee;
+      padding-top: 10px;
     }
 
-    .btn-confirmar {
-      background-color: #2ecc71;
-      color: white;
-    }
-
-    /* Sección para Mostrar Datos Guardados */
-    .resultado {
-      margin-top: 15px;
-      padding: 10px;
+    .tarjeta-pago {
       background-color: #e8f8f5;
       border: 1px solid #a3e4d7;
       border-radius: 6px;
+      padding: 10px;
+      margin-top: 10px;
+      position: relative;
       font-size: 13px;
-      display: none;
     }
+
+    .btn-eliminar {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .btn-eliminar:hover { background: #c0392b; }
   </style>
 </head>
 <body>
@@ -175,16 +172,16 @@
 
   <!-- Galería de Cuartos -->
   <div class="contenedor-cuartos">
-    <div class="tarjeta-cuarto" onclick="abrirModal('Cuarto 1A', 'https://via.placeholder.com/300x180?text=Cuarto+1A', 'Cuarto amplio con ventana a la calle.')">
-      <img src="https://via.placeholder.com/300x180?text=Cuarto+1A" alt="Cuarto 1A">
+    <div class="tarjeta-cuarto" onclick="abrirModal('Cuarto 2A', 'https://picsum.photos/id/1040/300/180', 'Cuarto amplio con ventana a la calle.')">
+      <img src="https://picsum.photos/id/1040/300/180" alt="Cuarto 2A">
       <div class="info">
-        <h3>Cuarto 1A</h3>
+        <h3>Cuarto 2A</h3>
         <p>Cuarto amplio con ventana a la calle.</p>
       </div>
     </div>
 
-    <div class="tarjeta-cuarto" onclick="abrirModal('Cuarto 2B', 'https://via.placeholder.com/300x180?text=Cuarto+2B', 'Cuarto en 2do piso con baño propio.')">
-      <img src="https://via.placeholder.com/300x180?text=Cuarto+2B" alt="Cuarto 2B">
+    <div class="tarjeta-cuarto" onclick="abrirModal('Cuarto 2B', 'https://picsum.photos/id/1068/300/180', 'Cuarto en 2do piso con baño propio.')">
+      <img src="https://picsum.photos/id/1068/300/180" alt="Cuarto 2B">
       <div class="info">
         <h3>Cuarto 2B</h3>
         <p>Cuarto en 2do piso con baño propio.</p>
@@ -192,21 +189,37 @@
     </div>
   </div>
 
+   <div class="tarjeta-cuarto" onclick="abrirModal('Cuarto 3A', 'https://picsum.photos/id/1068/300/180', 'Cuarto en 3er piso con baño propio.')">
+      <img src="https://picsum.photos/id/1068/300/180" alt="Cuarto 3A">
+      <div class="info">
+        <h3>Cuarto 3A</h3>
+        <p>Cuarto en 3ER piso con baño propio.</p>
+      </div>
+    </div>
+  </div>
+
+   <div class="tarjeta-cuarto" onclick="abrirModal('Cuarto 1A', 'https://picsum.photos/id/1068/300/180', 'Cuarto en TIENDA con baño propio.')">
+      <img src="https://picsum.photos/id/1068/300/180" alt="Cuarto 1A">
+      <div class="info">
+        <h3>Cuarto 1A</h3>
+        <p>Cuarto en TIENDA con baño propio.</p>
+      </div>
+    </div>
+  </div>
+  
   <!-- Ventana Emergente (Modal) -->
   <div class="overlay" id="overlay">
     <div class="modal">
       <div class="encabezado-modal">
-        <h2 id="modal-titulo">Cuarto 2B</h2>
-        <img id="modal-img" src="" alt="Miniatura">
+        <h2 id="modal-titulo">Cuarto</h2>
+        <img id="modal-img" src="" alt="Cuarto">
       </div>
 
-      <!-- Campo Fecha de Pago -->
       <div class="campo">
         <label for="fecha">Fecha de pago:</label>
         <input type="date" id="fecha">
       </div>
 
-      <!-- Campo Monto de Pago -->
       <div class="campo">
         <label for="monto">Monto de pago:</label>
         <select id="monto">
@@ -219,7 +232,6 @@
         </select>
       </div>
 
-      <!-- Campo Mes Cancelado -->
       <div class="campo">
         <label for="mes">Mes cancelado:</label>
         <select id="mes">
@@ -238,59 +250,101 @@
         </select>
       </div>
 
-      <!-- Botones de Acción -->
       <div class="acciones">
         <button class="btn btn-regresar" onclick="cerrarModal()">REGRESAR</button>
         <button class="btn btn-confirmar" onclick="guardarDatos()">CONFIRMAR</button>
       </div>
 
-      <!-- Área de Confirmación / Registro Guardado -->
-      <div class="resultado" id="resultado"></div>
+      <!-- Sección de Historial Guardado -->
+      <div class="historial-titulo">Pagos Registrados de este cuarto:</div>
+      <div id="lista-pagos"></div>
     </div>
   </div>
 
   <script>
-    // Función para abrir la ventana emergente con la información del cuarto seleccionado
+    let cuartoActual = '';
+
+    // Función para abrir la ventana emergente
     function abrirModal(nombre, imagen, descripcion) {
+      cuartoActual = nombre;
       document.getElementById('modal-titulo').innerText = nombre;
       document.getElementById('modal-img').src = imagen;
 
-      // Establecer la fecha actual de forma automática
+      // Colocar fecha de hoy
       const hoy = new Date();
-      const fechaFormateada = hoy.toISOString().split('T')[0];
-      document.getElementById('fecha').value = fechaFormateada;
+      document.getElementById('fecha').value = hoy.toISOString().split('T')[0];
 
-      // Seleccionar el mes actual automáticamente
+      // Colocar mes actual
       const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      const mesActual = meses[hoy.getMonth()];
-      document.getElementById('mes').value = mesActual;
+      document.getElementById('mes').value = meses[hoy.getMonth()];
 
-      // Ocultar resultados previos y mostrar la ventana
-      document.getElementById('resultado').style.display = 'none';
+      // Mostrar pagos guardados anteriormente
+      mostrarPagos();
+
       document.getElementById('overlay').style.display = 'flex';
     }
 
-    // Función para cerrar la ventana emergente
     function cerrarModal() {
       document.getElementById('overlay').style.display = 'none';
     }
 
-    // Función para guardar y mostrar la información al confirmar
+    // Guardar datos permanentemente en LocalStorage
     function guardarDatos() {
       const fecha = document.getElementById('fecha').value;
       const monto = document.getElementById('monto').value;
       const mes = document.getElementById('mes').value;
-      const cuarto = document.getElementById('modal-titulo').innerText;
 
-      const cajaResultado = document.getElementById('resultado');
-      cajaResultado.innerHTML = `
-        <strong>¡Datos guardados con éxito!</strong><br>
-        • <strong>Cuarto:</strong> ${cuarto}<br>
-        • <strong>Fecha:</strong> ${fecha}<br>
-        • <strong>Monto:</strong> S/ ${monto}<br>
-        • <strong>Mes:</strong> ${mes}
-      `;
-      cajaResultado.style.display = 'block';
+      if (!fecha) {
+        alert("Por favor selecciona una fecha válida.");
+        return;
+      }
+
+      const nuevoPago = { id: Date.now(), fecha, monto, mes };
+
+      // Obtener pagos previos del almacenamiento del navegador
+      let pagos = JSON.parse(localStorage.getItem(cuartoActual)) || [];
+      pagos.push(nuevoPago);
+
+      // Guardar de nuevo
+      localStorage.setItem(cuartoActual, JSON.stringify(pagos));
+
+      // Actualizar la lista en pantalla
+      mostrarPagos();
+    }
+
+    // Mostrar los pagos en la ventana emergente
+    function mostrarPagos() {
+      const contenedor = document.getElementById('lista-pagos');
+      contenedor.innerHTML = '';
+
+      let pagos = JSON.parse(localStorage.getItem(cuartoActual)) || [];
+
+      if (pagos.length === 0) {
+        contenedor.innerHTML = '<p style="font-size:12px; color:#888;">No hay pagos registrados aún.</p>';
+        return;
+      }
+
+      pagos.forEach(pago => {
+        const item = document.createElement('div');
+        item.className = 'tarjeta-pago';
+        item.innerHTML = `
+          <button class="btn-eliminar" onclick="eliminarPago(${pago.id})">Eliminar</button>
+          • <strong>Fecha:</strong> ${pago.fecha}<br>
+          • <strong>Monto:</strong> S/ ${pago.monto}<br>
+          • <strong>Mes:</strong> ${pago.mes}
+        `;
+        contenedor.appendChild(item);
+      });
+    }
+
+    // Eliminar un pago específico
+    function eliminarPago(id) {
+      if (confirm("¿Estás seguro de que deseas eliminar este registro?")) {
+        let pagos = JSON.parse(localStorage.getItem(cuartoActual)) || [];
+        pagos = pagos.filter(pago => pago.id !== id);
+        localStorage.setItem(cuartoActual, JSON.stringify(pagos));
+        mostrarPagos();
+      }
     }
   </script>
 </body>
